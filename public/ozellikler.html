@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Özellikler | Idesk</title>
+<meta name="description" content="Idesk'in uzaktan destek, dosya transferi, gözetimsiz erişim ve daha fazla özelliğini keşfedin.">
+<style>
+  :root{
+    --bg: #0b0e14;
+    --panel: #131722;
+    --panel-2: #1a1f2e;
+    --line: #232838;
+    --text: #eef1f6;
+    --muted: #8b93a7;
+    --accent: #4f7cff;
+    --accent-2: #7c5cff;
+    --accent-soft: rgba(79,124,255,.14);
+    --good: #33c481;
+    --danger: #ef5a6f;
+    --radius: 14px;
+    --font-display: "Idesk Display", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Idesk Body", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(124,92,255,.14), transparent 60%),
+      radial-gradient(900px 500px at -10% 10%, rgba(79,124,255,.12), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.5;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  /* Header */
+  header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 0;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:.2px;}
+  .brand .dot-mark{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;color:#fff;
+    box-shadow:0 6px 18px rgba(79,124,255,.35);
+  }
+  nav{display:flex;gap:28px;align-items:center;}
+  nav a{color:var(--muted);font-size:14.5px;font-weight:500;transition:color .15s;}
+  nav a:hover{color:var(--text);}
+  .header-actions{display:flex;gap:10px;align-items:center;}
+
+  .btn{
+    border:1px solid var(--line);
+    background:var(--panel-2);
+    color:var(--text);
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:14.5px;
+    font-weight:600;
+    transition:.15s border-color, .15s background, .15s transform;
+  }
+  .btn:hover{border-color:#3a4155;transform:translateY(-1px);}
+  .btn-primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    border:none;color:#fff;
+    box-shadow:0 8px 22px rgba(79,124,255,.3);
+  }
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn-ghost{background:transparent;border:1px solid var(--line);}
+  .btn-block{width:100%;display:block;text-align:center;}
+  .btn-lg{padding:14px 26px;font-size:15.5px;}
+
+  /* Hero */
+  .hero{
+    max-width:720px;margin:0 auto;text-align:center;
+    padding:64px 0 48px;
+  }
+  .hero .eyebrow{margin-left:auto;margin-right:auto;}
+  .hero p.lead{margin-left:auto;margin-right:auto;}
+  .hero-ctas{justify-content:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    color:var(--accent);background:var(--accent-soft);
+    padding:6px 12px;border-radius:100px;font-size:13px;font-weight:700;
+    letter-spacing:.3px;margin-bottom:20px;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-size:44px;line-height:1.12;font-weight:800;
+    margin:0 0 18px;letter-spacing:-.5px;
+  }
+  h1 span{
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{color:var(--muted);font-size:17px;max-width:520px;margin:0 0 30px;}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
+
+  /* Quick connect card - mirrors the app UI */
+  .app-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:22px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.5);
+  }
+  .app-card .titlebar{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:18px;
+  }
+  .app-card .titlebar-label{font-size:12.5px;color:var(--muted);font-weight:600;}
+  .app-card .dots{display:flex;gap:6px;}
+  .app-card .dots span{width:9px;height:9px;border-radius:50%;background:#2b3245;}
+  .id-field{
+    background:var(--panel-2);border:1px solid var(--line);
+    border-radius:12px;padding:16px;margin-bottom:14px;
+  }
+  .id-field label{font-size:12px;color:var(--muted);display:block;margin-bottom:8px;font-weight:600;}
+  .id-field .value{font-family:var(--font-mono);font-size:20px;font-weight:700;letter-spacing:1px;}
+  .connect-row{display:flex;gap:10px;margin-top:16px;}
+  .connect-row input{
+    flex:1;background:var(--panel-2);border:1px solid var(--line);color:var(--text);
+    border-radius:10px;padding:13px 14px;font-size:15px;font-family:var(--font-mono);letter-spacing:.5px;
+  }
+  .connect-row input::placeholder{color:#5a6274;letter-spacing:normal;font-family:var(--font-body);}
+
+  /* Sections */
+  section{padding:64px 0;}
+  .section-head{text-align:center;max-width:640px;margin:0 auto 44px;}
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{font-family:var(--font-display);font-size:32px;font-weight:800;margin:0 0 12px;letter-spacing:-.4px;}
+  .section-head p{color:var(--muted);font-size:15.5px;margin:0;}
+
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:26px;transition:.2s border-color, .2s transform;
+  }
+  .card:hover{border-color:#323a52;transform:translateY(-2px);}
+  .card .icon{
+    width:42px;height:42px;border-radius:10px;background:var(--accent-soft);
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--accent);font-size:20px;
+  }
+  .card h3{font-size:17px;margin:0 0 8px;font-weight:700;}
+  .card p{color:var(--muted);font-size:14px;margin:0;line-height:1.6;}
+
+  /* Pricing */
+  .pricing-panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:20px;
+    padding:38px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+  }
+  .seat-control{display:flex;align-items:center;gap:16px;margin:22px 0;}
+  .seat-control button{
+    width:42px;height:42px;border-radius:10px;background:var(--panel-2);border:1px solid var(--line);
+    color:var(--text);font-size:20px;font-weight:700;
+  }
+  .seat-control .count{font-size:28px;font-weight:800;min-width:60px;text-align:center;font-family:var(--font-mono);}
+  .price-line{display:flex;align-items:baseline;gap:8px;margin-top:6px;}
+  .price-line .big{font-family:var(--font-display);font-size:40px;font-weight:800;}
+  .price-line .per{color:var(--muted);font-size:14px;}
+  .price-breakdown{color:var(--muted);font-size:13.5px;margin-top:8px;}
+  .company-name-field{margin:18px 0;}
+  .company-name-field label{font-size:13px;color:var(--muted);font-weight:600;display:block;margin-bottom:8px;}
+  .company-name-field input{
+    width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);
+    border-radius:10px;padding:12px 14px;font-size:15px;
+  }
+  .pricing-list{list-style:none;padding:0;margin:0 0 26px;}
+  .pricing-list li{
+    display:flex;gap:10px;align-items:flex-start;padding:9px 0;color:var(--muted);font-size:14.5px;
+  }
+  .pricing-list li .check{color:var(--good);font-weight:800;}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:13.5px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+  /* Neden Idesk - karşılaştırma tablosu */
+  .compare-table{max-width:760px;margin:0 auto;border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+  .compare-row{display:grid;grid-template-columns:2fr 1fr 1fr;align-items:center;padding:16px 22px;
+    border-bottom:1px solid var(--line);font-size:14.5px;}
+  .compare-row:last-child{border-bottom:none;}
+  .compare-row > div:not(:first-child){text-align:center;}
+  .compare-row.compare-head{background:var(--panel-2);font-weight:700;color:var(--muted);font-size:13px;letter-spacing:.3px;}
+  .compare-row .cross{color:var(--muted);}
+  .compare-row .highlight{color:var(--text);font-weight:600;}
+  .compare-head .highlight{color:var(--accent);}
+
+  /* Nasıl Çalışıyor - adımlar */
+  .steps-row{display:flex;align-items:flex-start;justify-content:center;gap:18px;max-width:920px;margin:0 auto;}
+  .step{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;text-align:center;}
+  .step-num{
+    width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
+  }
+  .step h3{font-size:16px;margin:0 0 6px;}
+  .step p{color:var(--muted);font-size:13.5px;margin:0;}
+  .step-arrow{color:var(--muted);font-size:22px;padding-top:36px;}
+  @media (max-width:700px){ .steps-row{flex-direction:column;} .step-arrow{display:none;} }
+
+  /* SSS accordion */
+  .faq-list{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:10px;}
+  .faq-item{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;}
+  .faq-item summary{cursor:pointer;font-weight:600;font-size:15px;list-style:none;}
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::before{content:"+";color:var(--accent);font-weight:800;margin-right:10px;}
+  .faq-item[open] summary::before{content:"−";}
+  .faq-item p{color:var(--muted);font-size:14px;margin:12px 0 0;line-height:1.6;}
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(5,7,12,.7);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;z-index:100;padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    width:100%;max-width:420px;padding:30px;position:relative;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,.6);
+    max-height:90vh;overflow-y:auto;
+  }
+  .modal.wide{max-width:520px;}
+  .modal-close{
+    position:absolute;top:18px;right:18px;background:none;border:none;color:var(--muted);
+    font-size:20px;line-height:1;padding:4px;
+  }
+  .modal h2{font-family:var(--font-display);font-size:22px;margin:0 0 6px;font-weight:800;}
+  .modal .sub{color:var(--muted);font-size:14px;margin:0 0 24px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:7px;}
+  .field input, .field select{
+    width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);
+    border-radius:10px;padding:12px 14px;font-size:14.5px;
+  }
+  .field input:focus, .field select:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  .toggle-row{display:flex;gap:8px;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:4px;margin-bottom:22px;}
+  .toggle-row button{
+    flex:1;background:none;border:none;color:var(--muted);padding:9px;border-radius:8px;font-size:13.5px;font-weight:600;
+  }
+  .toggle-row button.active{background:var(--accent);color:#fff;}
+  .form-error{color:var(--danger);font-size:13px;margin:-8px 0 14px;display:none;}
+  .form-note{font-size:12.5px;color:var(--muted);text-align:center;margin-top:16px;}
+  .form-note a{color:var(--accent);font-weight:600;}
+  .status-msg{font-size:13px;margin-top:12px;text-align:center;display:none;}
+  .status-msg.ok{color:var(--good);}
+  .status-msg.err{color:var(--danger);}
+
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;}
+    .grid-3{grid-template-columns:1fr;}
+    .pricing-panel{grid-template-columns:1fr;}
+    nav{display:none;}
+    h1{font-size:32px;}
+    .compare-row{grid-template-columns:1.4fr .8fr .8fr;font-size:13px;padding:12px 14px;}
+  }
+
+  nav a.active-nav{color:var(--text);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="brand"><a href="index.html" style="display:flex;align-items:center;gap:10px;"><span class="dot-mark">ID</span> Idesk</a></div>
+    <nav>
+      <a href="ozellikler.html" class="active-nav">Özellikler</a>
+      <a href="neden-idesk.html">Neden Idesk</a>
+      <a href="fiyatlandirma.html">Fiyatlandırma</a>
+      <a href="kurumsal.html">Kurumsal</a>
+      <a href="sss.html">SSS</a>
+      <a href="iletisim.html">İletişim</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn" onclick="openModal('login')">Giriş Yap</button>
+      <button class="btn btn-primary" onclick="openModal('signup')">Kaydol</button>
+    </div>
+  </header>
+
+<section id="ozellikler">
+    <div class="section-head">
+      <div class="eyebrow">ÖZELLİKLER</div>
+      <h2>Uzaktan çalışmanın tüm ihtiyaçları tek uygulamada</h2>
+      <p>Idesk, destek ekiplerinden BT yöneticilerine kadar herkes için tasarlandı.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4V2m0 2a2 2 0 0 0-2 2v1H7l-2 4h14l-2-4h-6V4Z"/><path d="M9 12v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-6"/></svg></div>
+        <h3>Uzaktan Yardım</h3>
+        <p>Müşterinizin veya çalışma arkadaşınızın bilgisayarına saniyeler içinde bağlanın, karşı tarafın hiçbir teknik bilgiye ihtiyacı olmadan destek verin.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+        <h3>Şifreli İletişim</h3>
+        <p>Tüm bağlantılar 256 bit AES ile şifrelenir, anahtar iletiminde 1024 bit RSA kullanılır.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></div>
+        <h3>Gözetimsiz Erişim</h3>
+        <p>Başında kimse olmayan sunucularınıza ve ofis bilgisayarlarınıza sürekli erişim parolasıyla bağlanın.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2Z"/></svg></div>
+        <h3>Dosya Transferi</h3>
+        <p>Bağlı olduğunuz bilgisayarla dizinler arasında hızlı ve güvenli şekilde dosya aktarın.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg></div>
+        <h3>Web Canlı Destek</h3>
+        <p>Web sitenize entegre canlı destek modülüyle ziyaretçilerinizle anında iletişime geçin.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg></div>
+        <h3>Raporlama</h3>
+        <p>Şirketinizin yaptığı tüm bağlantıları, kim kime ne kadar destek verdiğini raporlayın.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="iletisim">
+    <span>© 2026 Idesk. Tüm hakları saklıdır.</span>
+    <span>Ödemeler ÖDEAL güvenli ödeme altyapısı ile işlenir.</span>
+  </footer>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="modal-login">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('login')">✕</button>
+    <h2>Giriş Yap</h2>
+    <p class="sub">Idesk hesabınıza giriş yapın.</p>
+    <form id="loginForm" onsubmit="return handleLogin(event)">
+      <div class="field">
+        <label>E-posta</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="field">
+        <label style="display:flex;justify-content:space-between;align-items:center;">
+          <span>Şifre</span>
+          <a href="#" style="font-size:12.5px;font-weight:600;color:var(--accent);" onclick="switchModal('login','forgot')">Şifremi unuttum</a>
+        </label>
+        <input type="password" name="password" required>
+      </div>
+      <div class="form-error" id="loginError"></div>
+      <button class="btn btn-primary btn-block btn-lg" type="submit">Giriş Yap</button>
+      <div class="status-msg" id="loginStatus"></div>
+    </form>
+    <div class="form-note">Hesabınız yok mu? <a href="#" onclick="switchModal('login','signup')">Kaydol</a></div>
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay" id="modal-forgot">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('forgot')">✕</button>
+    <h2>Şifremi Unuttum</h2>
+    <p class="sub">E-posta adresinizi girin, size şifre sıfırlama bağlantısı gönderelim.</p>
+    <form id="forgotForm" onsubmit="return handleForgotPassword(event)">
+      <div class="field">
+        <label>E-posta</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="form-error" id="forgotError"></div>
+      <button class="btn btn-primary btn-block btn-lg" type="submit">Sıfırlama Bağlantısı Gönder</button>
+      <div class="status-msg" id="forgotStatus"></div>
+    </form>
+    <div class="form-note"><a href="#" onclick="switchModal('forgot','login')">Giriş ekranına dön</a></div>
+  </div>
+</div>
+
+<!-- SIGNUP MODAL -->
+<div class="modal-overlay" id="modal-signup">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('signup')">✕</button>
+    <h2>Kaydol</h2>
+    <p class="sub">Bireysel mi yoksa şirket hesabı mı açmak istiyorsunuz?</p>
+    <div class="toggle-row">
+      <button type="button" class="active" id="tab-individual" onclick="setSignupType('individual')">Bireysel</button>
+      <button type="button" id="tab-company" onclick="setSignupType('company')">Şirket</button>
+    </div>
+    <form id="signupForm" onsubmit="return handleSignup(event)">
+      <div class="field" id="companyFieldWrap" style="display:none;">
+        <label>Şirket Adı</label>
+        <input type="text" name="companyName" id="signupCompanyName">
+      </div>
+      <div class="field">
+        <label>Ad Soyad</label>
+        <input type="text" name="fullName" required>
+      </div>
+      <div class="field">
+        <label>E-posta</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="field">
+        <label>Şifre</label>
+        <input type="password" name="password" minlength="6" required>
+      </div>
+      <input type="hidden" name="accountType" id="signupAccountType" value="individual">
+      <div class="form-error" id="signupError"></div>
+      <button class="btn btn-primary btn-block btn-lg" type="submit">Hesap Oluştur</button>
+      <div class="status-msg" id="signupStatus"></div>
+    </form>
+    <div class="form-note">Zaten hesabınız var mı? <a href="#" onclick="switchModal('signup','login')">Giriş Yap</a></div>
+  </div>
+</div>
+
+<!-- COMPANY PURCHASE MODAL -->
+<div class="modal-overlay" id="modal-company">
+  <div class="modal wide">
+    <button class="modal-close" onclick="closeModal('company')">✕</button>
+    <h2>Şirket Girişi</h2>
+    <p class="sub">Satın alımı tamamlamak için şirket bilgilerinizi ve yetkili iletişim bilgilerinizi girin. Onay sonrası şirketinize özel kurumsal kod tanımlanır.</p>
+    <form id="companyForm" onsubmit="return handleCompanyCheckout(event)">
+      <div class="field">
+        <label>Şirket Adı</label>
+        <input type="text" name="companyName" id="companyModalName" required>
+      </div>
+      <div class="field">
+        <label>Yetkili Ad Soyad</label>
+        <input type="text" name="contactName" required>
+      </div>
+      <div class="field">
+        <label>Kurumsal E-posta</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="field">
+        <label>Telefon</label>
+        <input type="tel" name="phone" required>
+      </div>
+      <div class="field">
+        <label>Kişi Sayısı</label>
+        <input type="number" name="seats" id="companyModalSeats" min="1" value="5" required>
+      </div>
+      <div class="price-line" style="margin:6px 0 20px;">
+        <span class="big" id="companyModalTotal">2.500 ₺</span>
+        <span class="per">/ ay — ÖDEAL ile tahsil edilecek</span>
+      </div>
+      <div class="form-error" id="companyError"></div>
+      <button class="btn btn-primary btn-block btn-lg" type="submit">ÖDEAL ile Ödemeye Geç</button>
+      <div class="status-msg" id="companyStatus"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const API_BASE = window.IDESK_API_BASE || '/api';
+  const PRICE_PER_SEAT = 500;
+  let seats = 5;
+
+  function formatTL(n){
+    return n.toLocaleString('tr-TR') + ' ₺';
+  }
+
+  function changeSeats(delta){
+    seats = Math.max(1, seats + delta);
+    document.getElementById('seatCount').textContent = seats;
+    document.getElementById('totalPrice').textContent = formatTL(seats * PRICE_PER_SEAT);
+    document.getElementById('companyModalSeats').value = seats;
+    document.getElementById('companyModalTotal').textContent = formatTL(seats * PRICE_PER_SEAT);
+  }
+
+  document.getElementById('companyModalSeats').addEventListener('input', (e)=>{
+    const v = Math.max(1, parseInt(e.target.value || '1', 10));
+    document.getElementById('companyModalTotal').textContent = formatTL(v * PRICE_PER_SEAT);
+  });
+
+  function openModal(name){
+    document.getElementById('modal-'+name).classList.add('open');
+    if(name === 'company'){
+      const compName = document.getElementById('companyNameInput').value;
+      document.getElementById('companyModalName').value = compName;
+      document.getElementById('companyModalSeats').value = seats;
+      document.getElementById('companyModalTotal').textContent = formatTL(seats * PRICE_PER_SEAT);
+    }
+  }
+  function closeModal(name){
+    document.getElementById('modal-'+name).classList.remove('open');
+  }
+  function switchModal(from,to){
+    closeModal(from); openModal(to);
+  }
+  document.querySelectorAll('.modal-overlay').forEach(ov=>{
+    ov.addEventListener('click', (e)=>{ if(e.target === ov) ov.classList.remove('open'); });
+  });
+
+  function setSignupType(type){
+    document.getElementById('signupAccountType').value = type;
+    document.getElementById('tab-individual').classList.toggle('active', type==='individual');
+    document.getElementById('tab-company').classList.toggle('active', type==='company');
+    document.getElementById('companyFieldWrap').style.display = type==='company' ? 'block' : 'none';
+    document.getElementById('signupCompanyName').required = (type==='company');
+  }
+
+  async function postJSON(path, body){
+    const res = await fetch(API_BASE + path, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok){
+      throw new Error(data.error || 'Bir hata oluştu, lütfen tekrar deneyin.');
+    }
+    return data;
+  }
+
+  async function handleLogin(e){
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const errEl = document.getElementById('loginError');
+    const statusEl = document.getElementById('loginStatus');
+    errEl.style.display = 'none';
+    try{
+      const data = await postJSON('/auth/login', {
+        email: form.get('email'), password: form.get('password')
+      });
+      statusEl.className = 'status-msg ok';
+      statusEl.style.display = 'block';
+      statusEl.textContent = 'Giriş başarılı, yönlendiriliyorsunuz...';
+      if(data.token) localStorage.setItem('idesk_token', data.token);
+    }catch(err){
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    }
+    return false;
+  }
+
+  async function handleSignup(e){
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const errEl = document.getElementById('signupError');
+    const statusEl = document.getElementById('signupStatus');
+    errEl.style.display = 'none';
+    try{
+      const data = await postJSON('/auth/register', {
+        fullName: form.get('fullName'),
+        email: form.get('email'),
+        password: form.get('password'),
+        accountType: form.get('accountType'),
+        companyName: form.get('companyName') || null
+      });
+      statusEl.className = 'status-msg ok';
+      statusEl.style.display = 'block';
+      statusEl.textContent = 'Hesabınız oluşturuldu! Giriş yapabilirsiniz.';
+      if(data.token) localStorage.setItem('idesk_token', data.token);
+    }catch(err){
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    }
+    return false;
+  }
+
+  async function handleForgotPassword(e){
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const errEl = document.getElementById('forgotError');
+    const statusEl = document.getElementById('forgotStatus');
+    errEl.style.display = 'none';
+    try{
+      const data = await postJSON('/auth/forgot-password', { email: form.get('email') });
+      statusEl.className = 'status-msg ok';
+      statusEl.style.display = 'block';
+      statusEl.textContent = data.message || 'Eğer bu e-posta kayıtlıysa, sıfırlama linki gönderildi.';
+      e.target.reset();
+    }catch(err){
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    }
+    return false;
+  }
+
+  async function handleCompanyCheckout(e){
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const errEl = document.getElementById('companyError');
+    const statusEl = document.getElementById('companyStatus');
+    errEl.style.display = 'none';
+    const seatsVal = parseInt(form.get('seats'), 10) || 1;
+    try{
+      // 1) Register the company + contact
+      const company = await postJSON('/company/register', {
+        companyName: form.get('companyName'),
+        contactName: form.get('contactName'),
+        email: form.get('email'),
+        phone: form.get('phone'),
+        seats: seatsVal
+      });
+
+      // 2) Start ÖDEAL payment for the calculated total
+      const payment = await postJSON('/payment/odeal/init', {
+        companyId: company.companyId,
+        amount: seatsVal * PRICE_PER_SEAT,
+        currency: 'TRY',
+        description: `Idesk Kurumsal Lisans - ${seatsVal} kişi`
+      });
+
+      if(payment.redirectUrl){
+        window.location.href = payment.redirectUrl; // ÖDEAL ödeme sayfasına yönlendir
+      } else {
+        statusEl.className = 'status-msg ok';
+        statusEl.style.display = 'block';
+        statusEl.textContent = 'Şirket kaydınız alındı, ödeme sayfasına yönlendiriliyorsunuz...';
+      }
+    }catch(err){
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    }
+    return false;
+  }
+</script>
+</body>
+</html>
