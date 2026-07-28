@@ -1,4 +1,4 @@
-# Idesk — RustDesk tabanlı, alpemix esintili landing page + kurumsal satın alma
+# Idesk — RustDesk tabanlı, landing page + kurumsal satın alma
 
 Bu proje iki parçadan oluşur:
 
